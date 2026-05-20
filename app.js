@@ -371,8 +371,12 @@ function App() {
                 >
                   <div className="day-number">{date.getDate()}</div>
                   <div className="day-content">
-                    <div className="hours-row">
-                      {entry?.hours > 0 && <span className="badge hour">{entry.hours.toFixed(1)}h</span>}
+                    {entry?.hours > 0 && (
+                      <div className="hours-row">
+                        <span className="badge hour">{entry.hours.toFixed(1)}h</span>
+                      </div>
+                    )}
+                    <div className="notes-row">
                       {entry?.absence && <div className="note-bar absence"></div>}
                       {entry?.task_note && <div className="note-bar task"></div>}
                     </div>

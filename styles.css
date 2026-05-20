@@ -196,6 +196,19 @@ button.primary:hover {
   width: 100%;
 }
 
+.topbar-card:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topbar-card:nth-child(3) p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
 .calendar-panel {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -246,8 +259,8 @@ button.primary:hover {
 
 .day-cell {
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 10px;
+  grid-template-rows: auto auto;
+  gap: 8px;
   cursor: pointer;
   transition: transform 0.18s ease, border-color 0.18s ease;
   position: relative;
@@ -256,13 +269,20 @@ button.primary:hover {
 .day-content {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .hours-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
+}
+
+.notes-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   flex-wrap: wrap;
 }
 
@@ -303,9 +323,10 @@ button.primary:hover {
  
 
 .note-bar {
-  height: 4px;
-  border-radius: 2px;
+  height: 6px;
+  border-radius: 3px;
   width: 100%;
+  flex-shrink: 0;
 }
 
 .note-bar.absence {
