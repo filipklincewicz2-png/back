@@ -371,9 +371,11 @@ function App() {
                 >
                   <div className="day-number">{date.getDate()}</div>
                   <div className="day-content">
-                    {entry?.hours > 0 && <span className="badge hour">{entry.hours.toFixed(1)}h</span>}
-                    {entry?.absence && <div className="note-bar absence"></div>}
-                    {entry?.task_note && <div className="note-bar task"></div>}
+                    <div className="hours-row">
+                      {entry?.hours > 0 && <span className="badge hour">{entry.hours.toFixed(1)}h</span>}
+                      {entry?.absence && <div className="note-bar absence"></div>}
+                      {entry?.task_note && <div className="note-bar task"></div>}
+                    </div>
                   </div>
                 </div>
               );
@@ -390,24 +392,6 @@ function App() {
               <strong>{predictedPay.toFixed(2)} PLN</strong>
             </div>
           </div>
-          {tooltipDate && (
-            <div className="day-tooltip">
-              <div className="tooltip-header">
-                <span>{new Date(tooltipDate).toLocaleDateString('pl-PL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                <button type="button" onClick={() => setTooltipDate(null)} style={{ background: 'none', border: 'none', color: 'var(--muted)', fontSize: '20px', padding: '0', cursor: 'pointer' }}>×</button>
-              </div>
-              <div className="tooltip-notes">
-                {notes
-                  .filter((n) => n.date === tooltipDate)
-                  .map((note) => (
-                    <div key={`${note.type}-${note.id}`} className={`tooltip-note ${note.type}`}>
-                      <span className="note-label">{note.type === 'absence' ? 'Nieobecność' : 'Obowiązek'}</span>
-                      <p>{note.content}</p>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )}
         </section>
 
         <aside>
@@ -475,6 +459,27 @@ function App() {
           </section>
         </aside>
       </div>
+
+      {tooltipDate && (
+        <div className="tooltip-modal-overlay" onClick={() => setTooltipDate(null)}>
+          <div className="tooltip-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="tooltip-modal-header">
+              <span>{new Date(tooltipDate).toLocaleDateString('pl-PL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <button type="button" onClick={() => setTooltipDate(null)} style={{ background: 'none', border: 'none', color: 'var(--muted)', fontSize: '20px', padding: '0', cursor: 'pointer' }}>×</button>
+            </div>
+            <div className="tooltip-modal-notes">
+              {notes
+                .filter((n) => n.date === tooltipDate)
+                .map((note) => (
+                  <div key={`${note.type}-${note.id}`} className={`tooltip-note ${note.type}`}>
+                    <span className="note-label">{note.type === 'absence' ? 'Nieobecność' : 'Obowiązek'}</span>
+                    <p>{note.content}</p>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

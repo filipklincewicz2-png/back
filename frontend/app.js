@@ -9,7 +9,11 @@ function getAuthHeaders() {
 }
 
 function formatDate(date) {
-  return new Date(date).toISOString().slice(0, 10);
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 function getMonthDays(year, month) {
@@ -50,6 +54,7 @@ function App() {
   const [rateInput, setRateInput] = useState('0');
   const [dayData, setDayData] = useState({ hours: '', absence: false, absence_note: '', task_note: '' });
   const [saveMessage, setSaveMessage] = useState('');
+  const [tooltipDate, setTooltipDate] = useState(null);
 
   useEffect(() => {
     fetch(`${API_PREFIX}/me`, {
@@ -356,13 +361,21 @@ function App() {
                 <div
                   key={iso}
                   className={`day-cell${isActive ? ' active' : ''}`}
-                  onClick={() => setSelectedDate(iso)}
+                  onClick={() => {
+                    setSelectedDate(iso);
+                    const dayNotes = notes.filter((n) => n.date === iso);
+                    if (dayNotes.length > 0) {
+                      setTooltipDate(iso);
+                    }
+                  }}
                 >
                   <div className="day-number">{date.getDate()}</div>
-                  <div>
-                    {entry?.hours > 0 && <span className="badge hour">{entry.hours.toFixed(1)}h</span>}
-                    {entry?.absence ? <span className="badge absence">Nieobecność</span> : null}
-                    {entry?.task_note ? <span className="badge task">Zadanie</span> : null}
+                  <div className="day-content">
+                    <div className="hours-row">
+                      {entry?.hours > 0 && <span className="badge hour">{entry.hours.toFixed(1)}h</span>}
+                      {entry?.absence && <div className="note-bar absence"></div>}
+                      {entry?.task_note && <div className="note-bar task"></div>}
+                    </div>
                   </div>
                 </div>
               );
@@ -397,13 +410,13 @@ function App() {
               />
             </div>
             <div className="field">
-              <label>
+              <label className="checkbox-label">
+                Oznacz jako nieobecność
                 <input
                   type="checkbox"
                   checked={dayData.absence}
                   onChange={(e) => setDayData((prev) => ({ ...prev, absence: e.target.checked }))}
                 />
-                {' '}Oznacz jako nieobecność
               </label>
             </div>
             {dayData.absence && (
@@ -446,6 +459,27 @@ function App() {
           </section>
         </aside>
       </div>
+
+      {tooltipDate && (
+        <div className="tooltip-modal-overlay" onClick={() => setTooltipDate(null)}>
+          <div className="tooltip-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="tooltip-modal-header">
+              <span>{new Date(tooltipDate).toLocaleDateString('pl-PL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <button type="button" onClick={() => setTooltipDate(null)} style={{ background: 'none', border: 'none', color: 'var(--muted)', fontSize: '20px', padding: '0', cursor: 'pointer' }}>×</button>
+            </div>
+            <div className="tooltip-modal-notes">
+              {notes
+                .filter((n) => n.date === tooltipDate)
+                .map((note) => (
+                  <div key={`${note.type}-${note.id}`} className={`tooltip-note ${note.type}`}>
+                    <span className="note-label">{note.type === 'absence' ? 'Nieobecność' : 'Obowiązek'}</span>
+                    <p>{note.content}</p>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -96,6 +96,27 @@ button {
   margin-bottom: 8px;
 }
 
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.field .checkbox-label {
+  color: var(--text);
+  width: 100%;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .field input,
 .field textarea {
   width: 100%;
@@ -177,7 +198,7 @@ button.primary:hover {
 
 .calendar-panel {
   display: grid;
-  grid-template-columns: 1.9fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 24px;
 }
 
@@ -225,10 +246,24 @@ button.primary:hover {
 
 .day-cell {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   gap: 10px;
   cursor: pointer;
   transition: transform 0.18s ease, border-color 0.18s ease;
+  position: relative;
+}
+
+.day-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hours-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .day-cell:hover {
@@ -254,15 +289,32 @@ button.primary:hover {
   font-size: 0.8rem;
   color: #04111e;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .badge.hour {
   background: rgba(79, 210, 167, 0.16);
   color: var(--success);
+  width: auto;
+  flex-shrink: 0;
 }
 
 .badge.absence {
-  background: rgba(255, 87, 104, 0.18);
+ 
+
+.note-bar {
+  height: 4px;
+  border-radius: 2px;
+  width: 100%;
+}
+
+.note-bar.absence {
+  background: var(--danger);
+}
+
+.note-bar.task {
+  background: var(--warning);
+} background: rgba(255, 87, 104, 0.18);
   color: var(--danger);
 }
 
@@ -368,6 +420,142 @@ button.primary:hover {
   min-height: 100px;
 }
 
+aside {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.day-tooltip {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px;
+  margin-top: 8px;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.tooltip-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tooltip-note {
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(8, 18, 31, 0.9);
+  border-left: 3px solid;
+}
+
+.tooltip-note.absence {
+  border-left-color: var(--danger);
+}
+
+.tooltip-note.task {
+  border-left-color: var(--warning);
+}
+
+.tooltip-note .note-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.tooltip-note p {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.tooltip-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tooltip-modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  max-width: 400px;
+  width: 90vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tooltip-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.tooltip-modal-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .button-row {
   display: flex;
   gap: 12px;
@@ -394,7 +582,6 @@ button.primary:hover {
 
 @media (max-width: 960px) {
   .auth-screen,
-  .calendar-panel,
   .topbar {
     grid-template-columns: 1fr;
   }

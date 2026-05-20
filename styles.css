@@ -108,6 +108,15 @@ button {
   margin: 0;
 }
 
+.field .checkbox-label {
+  color: var(--text);
+  width: 100%;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .field input,
 .field textarea {
   width: 100%;
@@ -237,7 +246,7 @@ button.primary:hover {
 
 .day-cell {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   gap: 10px;
   cursor: pointer;
   transition: transform 0.18s ease, border-color 0.18s ease;
@@ -248,6 +257,13 @@ button.primary:hover {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.hours-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .day-cell:hover {
@@ -273,11 +289,14 @@ button.primary:hover {
   font-size: 0.8rem;
   color: #04111e;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .badge.hour {
   background: rgba(79, 210, 167, 0.16);
   color: var(--success);
+  width: auto;
+  flex-shrink: 0;
 }
 
 .badge.absence {
@@ -472,6 +491,69 @@ aside {
   margin: 0;
   color: var(--text);
   font-size: 0.9rem;
+}
+
+.tooltip-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tooltip-modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  max-width: 400px;
+  width: 90vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tooltip-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.tooltip-modal-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .button-row {
