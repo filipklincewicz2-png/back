@@ -121,7 +121,14 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        const normalized = data.map((e) => ({ ...e, date: (e.date || '').slice(0, 10) }));
+        const normalized = data.map((e) => ({
+          ...e,
+          date: (e.date || '').slice(0, 10),
+          hours: Number(e.hours || 0),
+          absence: Boolean(e.absence),
+          absence_note: e.absence_note || '',
+          task_note: e.task_note || '',
+        }));
         setEntries(normalized);
       })
       .catch(console.error);
@@ -225,7 +232,14 @@ function App() {
     })
       .then((res) => res.json())
       .then((updated) => {
-        const norm = { ...updated, date: (updated.date || '').slice(0, 10) };
+        const norm = {
+          ...updated,
+          date: (updated.date || '').slice(0, 10),
+          hours: Number(updated.hours || 0),
+          absence: Boolean(updated.absence),
+          absence_note: updated.absence_note || '',
+          task_note: updated.task_note || '',
+        };
         setEntries((prev) => {
           const filtered = prev.filter((item) => item.date !== norm.date);
           return [...filtered, norm];
@@ -377,7 +391,7 @@ function App() {
                   <div className="day-number-wrap">
                     <div className="day-number">{date.getDate()}</div>
                     <div className="day-indicators">
-                      {entry?.absence && <div className="day-indicator absence" title="Nieobecność" />}
+                      {Boolean(entry?.absence) && <div className="day-indicator absence" title="Nieobecność" />}
                       {entry?.task_note && <div className="day-indicator task" title="Notatka" />}
                     </div>
                   </div>
@@ -388,7 +402,7 @@ function App() {
                       </div>
                     )}
                     <div className="notes-row">
-                      {entry?.absence && <div className="note-bar absence"></div>}
+                      {Boolean(entry?.absence) && <div className="note-bar absence"></div>}
                       {entry?.task_note && <div className="note-bar task"></div>}
                     </div>
                   </div>
@@ -416,7 +430,7 @@ function App() {
               Wybrana data: <strong>{selectedDate}</strong>
               {selectedEntry && (
                 <span style={{ marginLeft: 10 }} className="day-indicators">
-                  {selectedEntry.absence && <span className="day-indicator absence" title="Nieobecność" />}
+                  {Boolean(selectedEntry.absence) && <span className="day-indicator absence" title="Nieobecność" />}
                   {selectedEntry.task_note && <span className="day-indicator task" title="Notatka" />}
                 </span>
               )}
