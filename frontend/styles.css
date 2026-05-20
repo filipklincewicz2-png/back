@@ -1,0 +1,416 @@
+:root {
+  color-scheme: dark;
+  --bg: #08111b;
+  --panel: #102033;
+  --panel-strong: #162840;
+  --text: #f3f7fb;
+  --muted: #9bb3c9;
+  --accent: #3fd1ff;
+  --success: #4fd2a7;
+  --warning: #f8d14f;
+  --danger: #ff5768;
+  --scroll: #18293a;
+  --card: rgba(15, 24, 36, 0.92);
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  background: radial-gradient(circle at top, rgba(63, 209, 255, 0.08), transparent 25%),
+    linear-gradient(180deg, #06101a 0%, #060a11 100%);
+  color: var(--text);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.page {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.16);
+}
+
+.flex {
+  display: flex;
+  gap: 24px;
+}
+
+.grid {
+  display: grid;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+  align-items: center;
+  padding: 40px;
+}
+
+.auth-panel {
+  background: rgba(13, 21, 33, 0.96);
+  padding: 32px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.auth-panel h2 {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(8, 16, 28, 0.9);
+  color: var(--text);
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(63, 209, 255, 0.12);
+}
+
+button.primary {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #46d6ff, #2f8eff);
+  color: #04111e;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(46, 150, 255, 0.18);
+}
+
+.login-info {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.topbar-card {
+  flex: 1 1 280px;
+  padding: 20px;
+}
+
+.topbar-card h1,
+.topbar-card h3,
+.topbar-card p {
+  margin: 0;
+}
+
+.rate-card {
+  display: grid;
+  gap: 14px;
+}
+
+.rate-input {
+  max-width: 220px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.rate-input input {
+  width: 100%;
+}
+
+.calendar-panel {
+  display: grid;
+  grid-template-columns: 1.9fr 1fr;
+  gap: 24px;
+}
+
+.calendar-card {
+  padding: 24px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.calendar-header button {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--text);
+  padding: 12px 16px;
+  border-radius: 14px;
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.day-cell,
+.day-label {
+  min-height: 85px;
+  padding: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(9, 18, 29, 0.9);
+}
+
+.day-label {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  background: transparent;
+}
+
+.day-cell {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.day-cell:hover {
+  transform: translateY(-2px);
+  border-color: rgba(63, 209, 255, 0.32);
+}
+
+.day-cell.active {
+  border-color: #46d6ff;
+  background: rgba(14, 30, 50, 0.96);
+}
+
+.day-cell .day-number {
+  font-weight: 700;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: #04111e;
+  font-weight: 700;
+}
+
+.badge.hour {
+  background: rgba(79, 210, 167, 0.16);
+  color: var(--success);
+}
+
+.badge.absence {
+  background: rgba(255, 87, 104, 0.18);
+  color: var(--danger);
+}
+
+.badge.task {
+  background: rgba(248, 209, 79, 0.18);
+  color: var(--warning);
+}
+
+.summary-card,
+.notes-card,
+.day-editor {
+  padding: 22px;
+}
+
+.summary-card {
+  margin-top: 18px;
+}
+
+.summary-card h3,
+.notes-card h3,
+.day-editor h3 {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.summary-line:last-child {
+  border-bottom: none;
+}
+
+.notes-card {
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+}
+
+.note-item {
+  padding: 16px;
+  margin-bottom: 14px;
+  border-radius: 18px;
+  background: rgba(8, 18, 31, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.note-item:last-child {
+  margin-bottom: 0;
+}
+
+.note-item h4 {
+  margin: 0 0 8px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.note-item p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.note-item span {
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.note-item.absence {
+  border-color: rgba(255, 87, 104, 0.25);
+}
+
+.note-item.task {
+  border-color: rgba(248, 209, 79, 0.22);
+}
+
+.note-item .note-type {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.note-item .note-type.absence {
+  color: #ff7e8d;
+  background: rgba(255, 87, 104, 0.1);
+}
+
+.note-item .note-type.task {
+  color: #f7d462;
+  background: rgba(248, 209, 79, 0.12);
+}
+
+.day-editor .field {
+  margin-bottom: 18px;
+}
+
+.day-editor textarea {
+  min-height: 100px;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.button-row button {
+  flex: 1 1 140px;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+.button-row button.danger {
+  background: rgba(255, 87, 104, 0.16);
+}
+
+.button-row button.save {
+  background: linear-gradient(135deg, #46d6ff, #2f8eff);
+  color: #04111e;
+}
+
+@media (max-width: 960px) {
+  .auth-screen,
+  .calendar-panel,
+  .topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .auth-screen {
+    padding: 18px;
+  }
+
+  .day-cell,
+  .day-label {
+    min-height: 75px;
+  }
+}
