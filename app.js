@@ -53,7 +53,6 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(formatDate(today));
   const [rateInput, setRateInput] = useState('0');
   const [dayData, setDayData] = useState({ hours: '', absence: false, absence_note: '', task_note: '' });
-  const [isDirty, setIsDirty] = useState(false);
   const [saveMessage, setSaveMessage] = useState('');
   const [tooltipDate, setTooltipDate] = useState(null);
 
@@ -91,16 +90,7 @@ function App() {
       absence_note: entry?.absence_note || '',
       task_note: entry?.task_note || '',
     });
-    setIsDirty(false);
   }, [selectedDate, entries, user]);
-
-  useEffect(() => {
-    return () => {
-      if (isDirty) {
-        saveDayEntry(true);
-      }
-    };
-  }, [selectedDate, month, year, isDirty]);
 
   const monthName = useMemo(() => {
     return new Date(year, month, 1).toLocaleString('pl-PL', { month: 'long', year: 'numeric' });
@@ -228,7 +218,6 @@ function App() {
 
   function saveDayEntry(overwrite = false) {
     if (!user) return Promise.resolve();
-    if (!overwrite && !isDirty) return Promise.resolve();
 
     const entry = {
       date: selectedDate,
@@ -260,7 +249,6 @@ function App() {
         });
         setSaveMessage('Zapisano');
         setTimeout(() => setSaveMessage(''), 1800);
-        setIsDirty(false);
       })
       .catch((error) => {
         console.error(error);
@@ -459,11 +447,7 @@ function App() {
                 min="0"
                 step="0.1"
                 value={dayData.hours}
-                onChange={(e) => {
-                  setDayData((prev) => ({ ...prev, hours: e.target.value }));
-                  setIsDirty(true);
-                }}
-                onBlur={saveDayEntry}
+                onChange={(e) => setDayData((prev) => ({ ...prev, hours: e.target.value }))}
               />
             </div>
             <div className="field">
@@ -472,10 +456,7 @@ function App() {
                 <input
                   type="checkbox"
                   checked={dayData.absence}
-                  onChange={(e) => {
-                    setDayData((prev) => ({ ...prev, absence: e.target.checked }));
-                    setIsDirty(true);
-                  }}
+                  onChange={(e) => setDayData((prev) => ({ ...prev, absence: e.target.checked }))}
                 />
               </label>
             </div>
@@ -484,11 +465,7 @@ function App() {
                 <label>Notatka nieobecności</label>
                 <textarea
                   value={dayData.absence_note}
-                  onChange={(e) => {
-                    setDayData((prev) => ({ ...prev, absence_note: e.target.value }));
-                    setIsDirty(true);
-                  }}
-                  onBlur={saveDayEntry}
+                  onChange={(e) => setDayData((prev) => ({ ...prev, absence_note: e.target.value }))}
                 />
               </div>
             )}
@@ -496,11 +473,7 @@ function App() {
               <label>Planowane obowiązki / zadanie</label>
               <textarea
                 value={dayData.task_note}
-                onChange={(e) => {
-                  setDayData((prev) => ({ ...prev, task_note: e.target.value }));
-                  setIsDirty(true);
-                }}
-                onBlur={saveDayEntry}
+                onChange={(e) => setDayData((prev) => ({ ...prev, task_note: e.target.value }))}
               />
             </div>
             <div className="button-row">
