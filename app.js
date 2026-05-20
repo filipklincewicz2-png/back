@@ -120,7 +120,10 @@ function App() {
       headers: getAuthHeaders(),
     })
       .then((res) => res.json())
-      .then(setEntries)
+      .then((data) => {
+        const normalized = data.map((e) => ({ ...e, date: (e.date || '').slice(0, 10) }));
+        setEntries(normalized);
+      })
       .catch(console.error);
   }
 
@@ -222,9 +225,10 @@ function App() {
     })
       .then((res) => res.json())
       .then((updated) => {
+        const norm = { ...updated, date: (updated.date || '').slice(0, 10) };
         setEntries((prev) => {
-          const filtered = prev.filter((item) => item.date !== updated.date);
-          return [...filtered, updated];
+          const filtered = prev.filter((item) => item.date !== norm.date);
+          return [...filtered, norm];
         });
         setSaveMessage('Zapisano');
         setTimeout(() => setSaveMessage(''), 1800);
