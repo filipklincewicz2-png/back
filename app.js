@@ -293,6 +293,7 @@ function App() {
   }
 
   const calendarDays = buildCalendar(year, month);
+  const selectedEntry = entries.find((item) => item.date === selectedDate);
 
   return (
     <div className="page app-shell">
@@ -369,7 +370,13 @@ function App() {
                     }
                   }}
                 >
-                  <div className="day-number">{date.getDate()}</div>
+                  <div className="day-number-wrap">
+                    <div className="day-number">{date.getDate()}</div>
+                    <div className="day-indicators">
+                      {entry?.absence && <div className="day-indicator absence" title="Nieobecność" />}
+                      {entry?.task_note && <div className="day-indicator task" title="Notatka" />}
+                    </div>
+                  </div>
                   <div className="day-content">
                     {entry?.hours > 0 && (
                       <div className="hours-row">
@@ -401,7 +408,15 @@ function App() {
         <aside>
           <section className="card day-editor">
             <h3>Edytuj dzień</h3>
-            <p style={{ marginBottom: '12px' }}>Wybrana data: <strong>{selectedDate}</strong></p>
+            <p style={{ marginBottom: '12px' }}>
+              Wybrana data: <strong>{selectedDate}</strong>
+              {selectedEntry && (
+                <span style={{ marginLeft: 10 }} className="day-indicators">
+                  {selectedEntry.absence && <span className="day-indicator absence" title="Nieobecność" />}
+                  {selectedEntry.task_note && <span className="day-indicator task" title="Notatka" />}
+                </span>
+              )}
+            </p>
             <div className="field">
               <label>Ilość przepracowanych godzin</label>
               <input

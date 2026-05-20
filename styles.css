@@ -318,9 +318,10 @@ button.primary:hover {
   width: auto;
   flex-shrink: 0;
 }
-
 .badge.absence {
- 
+  background: rgba(255, 87, 104, 0.18);
+  color: var(--danger);
+}
 
 .note-bar {
   height: 6px;
@@ -335,13 +336,39 @@ button.primary:hover {
 
 .note-bar.task {
   background: var(--warning);
-} background: rgba(255, 87, 104, 0.18);
-  color: var(--danger);
 }
 
 .badge.task {
   background: rgba(248, 209, 79, 0.18);
   color: var(--warning);
+}
+
+/* Day indicators next to the day number to show notes/absences */
+.day-number-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.day-indicators {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.day-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.day-indicator.absence {
+  background: var(--danger);
+}
+
+.day-indicator.task {
+  background: var(--warning);
 }
 
 .summary-card,
